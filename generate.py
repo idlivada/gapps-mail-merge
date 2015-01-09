@@ -1,5 +1,6 @@
 import config
 import gdata
+import getpass
 import gdata.spreadsheet.service
 
 spr_keys = ['name', 'email', 'body', 'subject', 'status']
@@ -7,7 +8,7 @@ spr_keys = ['name', 'email', 'body', 'subject', 'status']
 def get_spreadsheet_client():
     spr_client = gdata.spreadsheet.service.SpreadsheetsService()
     spr_client.email = config.GDOCS_USERNAME
-    spr_client.password = raw_input('GDocs Password:')
+    spr_client.password = getpass.getpass("Enter password:")
     spr_client.source = 'SaaS Metrics Python Program'
     spr_client.ProgrammaticLogin()
     return spr_client
