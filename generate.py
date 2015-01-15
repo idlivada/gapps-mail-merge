@@ -24,7 +24,11 @@ def fill_subject(name):
     return config.SUBJECT
 
 def fill_body(name):
-    return (config.BODY % name.split()[0]).strip()
+    if config.USE_FULL_NAME:
+        fill_name = name
+    else:
+        fill_name = name.split()[0]
+    return (config.BODY % fill_name).strip()
 
 def add_row(spr, row, article, wid):
     for col, key in enumerate(spr_keys):
