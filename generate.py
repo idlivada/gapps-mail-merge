@@ -1,17 +1,7 @@
 import config
-import gdata
-import getpass
-import gdata.spreadsheet.service
+import gapps
 
 spr_keys = ['name', 'email', 'body', 'subject', 'status']
-
-def get_spreadsheet_client():
-    spr_client = gdata.spreadsheet.service.SpreadsheetsService()
-    spr_client.email = config.GDOCS_USERNAME
-    spr_client.password = getpass.getpass("Enter password:")
-    spr_client.source = 'SaaS Metrics Python Program'
-    spr_client.ProgrammaticLogin()
-    return spr_client
 
 def get_worksheet_id_by_title(spr_client, spreadsheet_key, title):
     for worksheet in spr_client.GetWorksheetsFeed(key=spreadsheet_key).entry:
@@ -37,21 +27,23 @@ def add_row(spr, row, article, wid):
     print article
 
 def main():
-    spr = get_spreadsheet_client()
-    wid = get_worksheet_id_by_title(spr, config.GDOCS_SPREADSHEET_KEY, config.GDOCS_WORKSHEET)
-
+    gc = gapps.get_client()
+    sheet = gc.open(config.GDOCS_NAME)
+    worksheet = sheet.worksheet(config.GDOCS_WORKSHEET)
+    
     name_col = spr_keys.index('name')+1
     body_col = spr_keys.index('body')+1
     subject_col = spr_keys.index('subject')+1
 
     for row in xrange(2, config.GDOCS_MAX_ROWS):
-        name = spr.GetCellsFeed(config.GDOCS_SPREADSHEET_KEY, wid, "R"+str(row)+"C"+str(name_col)).content.text
+        name = worksheet.cell(row, name_col).value
+        print name
 
         if not name:
             continue
         
-        spr.UpdateCell(row, subject_col, fill_subject(name), config.GDOCS_SPREADSHEET_KEY, wid)
-        spr.UpdateCell(row, body_col, fill_body(name), config.GDOCS_SPREADSHEET_KEY, wid)        
+        worksheet.update_cell(row, subject_col, fill_subject(name))
+        worksheet.update_cell(row, body_col, fill_body(name))
     
 if __name__ == "__main__":
     main()
