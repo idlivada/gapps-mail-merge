@@ -3,11 +3,6 @@ import gapps
 
 spr_keys = ['name', 'email', 'body', 'subject', 'status']
 
-def get_worksheet_id_by_title(spr_client, spreadsheet_key, title):
-    for worksheet in spr_client.GetWorksheetsFeed(key=spreadsheet_key).entry:
-        if worksheet.title.text == title:
-            return worksheet.id.text.rsplit('/', 1)[1]   
-
 def fill_subject(name):
     if '%s' in config.SUBJECT:
         return config.SUBJECT % name.split()[0]
@@ -19,12 +14,6 @@ def fill_body(name):
     else:
         fill_name = name.split()[0]
     return (config.BODY % fill_name).strip()
-
-def add_row(spr, row, article, wid):
-    for col, key in enumerate(spr_keys):
-        spr.UpdateCell(row, col+1, article.get(key, ''), config.GDOCS_SPREADSHEET_KEY, wid)
-
-    print article
 
 def main():
     gc = gapps.get_client()

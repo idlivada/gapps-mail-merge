@@ -4,7 +4,7 @@ SUBJECT = "%s, quick question on content marketing technology"
 BODY = """
 Hi %s,
 
-I am putting together a blog post on the emergence of content marketing platforms and more broadly content marketing technology.  I would love to quote you in it.
+I am putting together a blog post on the emergence of content marketing technologies.  I would love to quote you in it.
 
 If you're interested in being included, can you send me a quick answer (max. 100 words) to the following question by Monday, July 20th?
 

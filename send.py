@@ -1,11 +1,12 @@
 import smtplib
 import generate
 import config
+import gapps
 
 def main():
-
-    spr = generate.get_spreadsheet_client()
-    wid = generate.get_worksheet_id_by_title(spr, config.GDOCS_SPREADSHEET_KEY, config.GDOCS_WORKSHEET)
+    gc = gapps.get_client()
+    sheet = gc.open(config.GDOCS_NAME)
+    worksheet = sheet.worksheet(config.GDOCS_WORKSHEET)
 
     email_col = generate.spr_keys.index('email')+1
     body_col = generate.spr_keys.index('body')+1
@@ -13,15 +14,15 @@ def main():
     status_col = generate.spr_keys.index('status')+1       
 
     for row in xrange(2, 101):
-        status = spr.GetCellsFeed(config.GDOCS_SPREADSHEET_KEY, wid, "R"+str(row)+"C"+str(status_col)).content.text
-        email = spr.GetCellsFeed(config.GDOCS_SPREADSHEET_KEY, wid, "R"+str(row)+"C"+str(email_col)).content.text
-        body = spr.GetCellsFeed(config.GDOCS_SPREADSHEET_KEY, wid, "R"+str(row)+"C"+str(body_col)).content.text
-        subject = spr.GetCellsFeed(config.GDOCS_SPREADSHEET_KEY, wid, "R"+str(row)+"C"+str(subject_col)).content.text
+        status = worksheet.cell(row, status_col).value
+        email = worksheet.cell(row, email_col).value
+        body = worksheet.cell(row, body_col).value
+        subject = worksheet.cell(row, subject_col).value        
 
         if email and body and subject and not status:
             send_email(email, '%s <%s>' % (config.EMAIL_FROM_NAME, config.EMAIL_FROM_ADDRESS), body.strip(), subject, config.EMAIL_TO_SALESFORCE)
-            spr.UpdateCell(row, status_col, 'Sent', config.GDOCS_SPREADSHEET_KEY, wid)
-            
+            worksheet.update_cell(row, status_col, 'Sent')
+            break
 def send_email(to, sender, msg, subject, bcc=None):
     server = smtplib.SMTP(config.EMAIL_HOST, config.EMAIL_PORT)
     server.ehlo()
