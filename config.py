@@ -1,16 +1,18 @@
+import getpass
+
 # Change every time
-GDOCS_WORKSHEET = 'Content Marketing Platform Guide'
-SUBJECT = "%s, quick question on content marketing technology"
+GDOCS_WORKSHEET = 'Q2 2016 Skip Level Meetings'
+SUBJECT = "%s, 1-on-1 this quarter"
 BODY = """
 Hi %s,
 
-I am putting together a blog post on the emergence of content marketing technologies.  I would love to quote you in it.
+I'd like to schedule a 1-on-1 meeting with you sometime this quarter.  
 
-If you're interested in being included, can you send me a quick answer (max. 100 words) to the following question by Monday, July 20th?
+I know you already have 1-on-1 meetings with your direct manager, but this is an opportunity for you to provide feedback to me directly about the company as a whole and areas where we can improve,  I will also have some specific questions for you at that time to help drive the discussion.  
 
-* What do you feel is the future of content marketing technology?
+The whole meeting is meant to be pretty informal if you haven't done one before.
 
-It is pretty open ended, so if you need more guidance, happy to clarify.
+When you get a chance, can you please pick a date and time that works for you here http://bit.ly/PawanSkipLevel? (see the Friday 3-4 PM time slots every week)
 
 Thanks,
 Pawan
@@ -24,7 +26,7 @@ CEO | Curata. (www.curata.com) | 617 229 5555
 EMAIL_HOST_USER = 'pawan@curata.com'
 EMAIL_FROM_NAME = "Pawan Deshpande"
 EMAIL_FROM_ADDRESS = 'pawan@curata.com'
-EMAIL_TO_SALESFORCE = 'emailtosalesforce@49nix7gb1zncztbrslzxaeo3y.in.salesforce.com'
+EMAIL_TO_SALESFORCE = ''#emailtosalesforce@49nix7gb1zncztbrslzxaeo3y.in.salesforce.com'
 
 GDOCS_USERNAME = 'pawan@curata.com'
 GDOCS_NAME = "Mail Merges"
@@ -35,7 +37,7 @@ USE_FULL_NAME = False
 # Rarely changed
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = raw_input("Enter password:")
+EMAIL_HOST_PASSWORD = getpass.getpass('Pawword:')
 
 
 
